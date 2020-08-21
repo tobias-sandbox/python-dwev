@@ -1,0 +1,64 @@
+{
+	"name": "Python 3 with Pipenv",
+	"build": {
+		"dockerfile": "Dockerfile",
+		"context": "..",
+
+		// Update 'VARIANT' to pick a Python version. Rebuild the container
+		// if it already exists to update. Available variants: 3 (latest), 3.6, 3.7, 3.8
+		"args": {
+			"VARIANT": "3"
+		}
+	},
+
+	// Set *default* container specific settings.json values on container create.
+	"settings": {
+		"terminal.integrated.shell.linux": "/bin/bash",
+		"python.pythonPath": "~/.local/share/pipenv/bin/python",
+		"python.pipenvPath": "/usr/local/py-utils/bin/pipenv",
+		"python.linting.enabled": true,
+
+		// Pick a formatter to use
+		"python.formatting.provider": "black",
+		// "python.formatting.provider": "black",
+		// "python.formatting.provider": "yapf",
+
+		// Pick which linters to enable
+		// "python.linting.banditEnabled": true,
+		"python.linting.flake8Enabled": true,
+		// "python.linting.mypyEnabled": true,
+		// "python.linting.pycodestyleEnabled": true,
+		// "python.linting.pydocstyleEnabled": true,
+		"python.linting.pylintEnabled": true,
+
+		"python.formatting.autopep8Path": "~/.local/share/pipenv/bin/autopep8",
+		"python.formatting.blackPath": "~/.local/share/pipenv/bin/black",
+		"python.formatting.yapfPath": "~/.local/share/pipenv/bin/yapf",
+		"python.linting.banditPath": "~/.local/share/pipenv/bin/bandit",
+		"python.linting.flake8Path": "~/.local/share/pipenv/bin/flake8",
+		"python.linting.mypyPath": "~/.local/share/pipenv/bin/mypy",
+		"python.linting.pycodestylePath": "~/.local/share/pipenv/bin/pycodestyle",
+		"python.linting.pydocstylePath": "~/.local/share/pipenv/bin/pydocstyle",
+		"python.linting.pylintPath": "~/.local/share/pipenv/bin/pylint"
+	},
+
+	// Add the IDs of extensions you want installed when the container is created.
+	"extensions": [
+		"ms-python.python",
+		"ms-azuretools.vscode-docker",
+		"eamodio.gitlens"
+	],
+
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	// "forwardPorts": [],
+
+	// Install Pipenv environment with some Python dev tools
+	// Note: Remove any tools you don't use before building to reduce clutter in your Pipfile
+	// Note: After building the container once, the tools listed below can be
+	// removed by swapping the second line since they are now in your Pipfile
+	"postCreateCommand": "pipenv install --dev --pre pylint flake8 autopep8 black yapf pytest mypy pydocstyle pycodestyle bandit && ln -s ~/.local/share/virtualenvs/*-* ~/.local/share/pipenv",
+	// "postCreateCommand": "pipenv install --dev && ln -s ~/.local/share/virtualenvs/*-* ~/.local/share/pipenv"
+	
+	// Uncomment to connect as a non-root user. See https://aka.ms/vscode-remote/containers/non-root.
+	"remoteUser": "vscode"
+}
